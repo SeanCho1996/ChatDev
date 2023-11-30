@@ -1,7 +1,9 @@
 import json
 import errno
 import os
-os.environ["OPENAI_API_KEY"] = "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"
+with open("./api_key", "r") as f:
+    api_key = f.read()
+os.environ["OPENAI_API_KEY"] = api_key
 from run import main as ChatDevMain
 
 # set openai api key

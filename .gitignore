@@ -11,3 +11,6 @@ venv/
 
 # code results
 HE
+
+# openai api
+api_key
