@@ -73,7 +73,7 @@ class Codes:
                 log_and_print_online(update_codes_content)
                 self.codebooks[key] = new_codes.codebooks[key]
 
-    def _rewrite_codes(self, git_management, phase_info=None) -> None:
+    def _rewrite_codes(self, git_management, phase_info=None, suffix="") -> None:
         directory = self.directory
         rewrite_codes_content = "**[Rewrite Codes]**\n\n"
         if os.path.exists(directory) and len(os.listdir(directory)) > 0:
@@ -83,10 +83,13 @@ class Codes:
             rewrite_codes_content += "{} Created\n".format(directory)
 
         for filename in self.codebooks.keys():
-            filepath = os.path.join(directory, filename)
+            filename_list = filename.split(".")
+            filename_list[-2] += suffix
+            filename_new = ".".join(filename_list)
+            filepath = os.path.join(directory, filename_new)
             with open(filepath, "w", encoding="utf-8") as writer:
                 writer.write(self.codebooks[filename])
-                rewrite_codes_content += os.path.join(directory, filename) + " Wrote\n"
+                rewrite_codes_content += os.path.join(directory, filename_new) + " Wrote\n"
 
         if git_management:
             if not phase_info:

@@ -145,8 +145,8 @@ class ChatEnv:
     def update_codes(self, generated_content):
         self.codes._update_codes(generated_content)
 
-    def rewrite_codes(self, phase_info=None) -> None:
-        self.codes._rewrite_codes(self.config.git_management, phase_info)
+    def rewrite_codes(self, phase_info=None, suffix="") -> None:
+        self.codes._rewrite_codes(self.config.git_management, phase_info, suffix)
 
     def get_codes(self) -> str:
         return self.codes._get_codes()

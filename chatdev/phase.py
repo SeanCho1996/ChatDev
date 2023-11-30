@@ -353,7 +353,7 @@ class Coding(Phase):
         chat_env.update_codes(self.seminar_conclusion)
         if len(chat_env.codes.codebooks.keys()) == 0:
             raise ValueError("No Valid Codes.")
-        chat_env.rewrite_codes("Finish Coding")
+        chat_env.rewrite_codes("Finish Coding", "_ori")
         log_and_print_online(
             "**[Software Info]**:\n\n {}".format(get_info(chat_env.env_dict['directory'], self.log_filepath)))
         return chat_env
@@ -421,7 +421,7 @@ class CodeComplete(Phase):
         chat_env.update_codes(self.seminar_conclusion)
         if len(chat_env.codes.codebooks.keys()) == 0:
             raise ValueError("No Valid Codes.")
-        chat_env.rewrite_codes("Code Complete #" + str(self.phase_env["cycle_index"]) + " Finished")
+        chat_env.rewrite_codes("Code Complete #" + str(self.phase_env["cycle_index"]) + " Finished", "_complete")
         log_and_print_online(
             "**[Software Info]**:\n\n {}".format(get_info(chat_env.env_dict['directory'], self.log_filepath)))
         return chat_env
@@ -460,7 +460,7 @@ class CodeReviewModification(Phase):
     def update_chat_env(self, chat_env) -> ChatEnv:
         if "```".lower() in self.seminar_conclusion.lower():
             chat_env.update_codes(self.seminar_conclusion)
-            chat_env.rewrite_codes("Review #" + str(self.phase_env["cycle_index"]) + " Finished")
+            chat_env.rewrite_codes("Review #" + str(self.phase_env["cycle_index"]) + " Finished", f"_Mod{str(self.phase_env['cycle_index'])}")
             log_and_print_online(
                 "**[Software Info]**:\n\n {}".format(get_info(chat_env.env_dict['directory'], self.log_filepath)))
         self.phase_env['modification_conclusion'] = self.seminar_conclusion

@@ -95,7 +95,7 @@
   ],
   "clear_structure": "True",
   "brainstorming": "False",
-  "gui_design": "True",
+  "gui_design": "False",
   "git_management": "False",
   "self_improve": "False",
   "incremental_develop": "False"

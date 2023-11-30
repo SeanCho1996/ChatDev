@@ -28,7 +28,8 @@ class ChatChain:
                  project_name: str = None,
                  org_name: str = None,
                  model_type: ModelType = ModelType.GPT_3_5_TURBO,
-                 code_path: str = None) -> None:
+                 code_path: str = None,
+                 save_folder: str= None) -> None:
         """
 
         Args:
@@ -48,6 +49,7 @@ class ChatChain:
         self.org_name = org_name
         self.model_type = model_type
         self.code_path = code_path
+        self.save_folder = save_folder
 
         with open(self.config_path, 'r', encoding="utf8") as file:
             self.config = json.load(file)
@@ -175,7 +177,9 @@ class ChatChain:
         # root = "/".join(filepath.split("/")[:-1])
         root = os.path.dirname(filepath)
         # directory = root + "/WareHouse/"
-        directory = os.path.join(root, "WareHouse")
+        directory = os.path.join(root, self.save_folder)
+        if not os.path.exists(directory):
+            os.makedirs(directory)
         log_filepath = os.path.join(directory,
                                     "{}.log".format("_".join([self.project_name, self.org_name, start_time])))
         return start_time, log_filepath
@@ -189,7 +193,7 @@ class ChatChain:
         if self.chat_env.config.clear_structure:
             filepath = os.path.dirname(__file__)
             root = os.path.dirname(filepath)
-            directory = os.path.join(root, "WareHouse")
+            directory = os.path.join(root, self.save_folder)
             for filename in os.listdir(directory):
                 file_path = os.path.join(directory, filename)
                 # logs with error trials are left in WareHouse/
@@ -306,7 +310,7 @@ class ChatChain:
         time.sleep(1)
 
         shutil.move(self.log_filepath,
-                    os.path.join(root + "/WareHouse", "_".join([self.project_name, self.org_name, self.start_time]),
+                    os.path.join(root + f"/{self.save_folder}", "_".join([self.project_name, self.org_name, self.start_time]),
                                  os.path.basename(self.log_filepath)))
 
     # @staticmethod
