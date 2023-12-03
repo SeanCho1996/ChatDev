@@ -313,6 +313,23 @@ class ChatChain:
                     os.path.join(root + f"/{self.save_folder}", "_".join([self.project_name, self.org_name, self.start_time]),
                                  os.path.basename(self.log_filepath)))
 
+        # for each {prefix}_ori.py file, search if there is a {prefix}_Mod*.py file in the same directory
+        # if there is, then copy the last {prefix}_Mod*.py file to {prefix}.py
+        # if there is not, then copy {prefix}_ori.py to {prefix}.py
+        for root, dirs, files in os.walk(self.chat_env.env_dict['directory']):
+            for file in files:
+                if file.endswith("_ori.py"):
+                    prefix = file.split("_ori.py")[0]
+                    mod_files = [f for f in files if f.startswith(prefix + "_Mod")]
+                    if len(mod_files) > 0:
+                        mod_files.sort()
+                        shutil.copy(os.path.join(root, mod_files[-1]), os.path.join(root, prefix + ".py"))
+                    else:
+                        shutil.copy(os.path.join(root, file), os.path.join(root, prefix + ".py"))
+
+
+
+
     # @staticmethod
     def self_task_improve(self, task_prompt):
         """
