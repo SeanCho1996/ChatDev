@@ -12,5 +12,8 @@ venv/
 # code results
 HE
 
+# test cases
+test_cases
+
 # openai api
 api_key

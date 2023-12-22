@@ -1,6 +1,8 @@
+import os
+import sys
+sys.path.append(f"{os.environ['PWD']}")
 import json
 import errno
-import os
 with open("./api_key", "r") as f:
     api_key = f.read()
 os.environ["OPENAI_API_KEY"] = api_key
@@ -37,15 +39,16 @@ with open(dataset_file, "r") as f:
 
 # extract question and run ChatDev
 flag = False
-for i in questions[20:21]:
+for i in questions[:20]:
     question = i[question_key]
     test_cases = i[test_key]
     task_id = i[task_id_key].split("/")[-1]
+    task_id = str(task_id).zfill(3)
     print(question)
     print(test_cases)
     
     task = f"""Finish the following function delimited by triple quotes:\
         \"\"\"{question}\"\"\"
         """
-    name = f"ChatDev-{task_id}"
+    name = f"ChatDev_{task_id}"
     ChatDevMain(task=task, name=name, save_folder=dataset)
