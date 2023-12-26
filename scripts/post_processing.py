@@ -2,7 +2,7 @@ import os
 import shutil
 import re
 
-folder_path = "./HE"
+folder_path = "./MBPP"
 
 # Iterate over all subfolders
 for subfolder in os.listdir(folder_path):

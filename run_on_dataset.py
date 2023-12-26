@@ -10,7 +10,7 @@ from run import main as ChatDevMain
 
 # set openai api key
 
-dataset = "HE"
+dataset = "MBPP"
 
 # choose dataset, get corresponding dataset config
 if dataset == "HE":
@@ -18,15 +18,11 @@ if dataset == "HE":
     question_key = "prompt"
     test_key = "test"
     task_id_key = "task_id"
-elif dataset == "HE-E":
-    dataset_file = "./dataset/HumanEval_Extend.jsonl"
+elif dataset == "MBPP":
+    dataset_file = "./dataset/MBPP.jsonl"
     question_key = "prompt"
     test_key = "test"
     task_id_key = "task_id"
-elif dataset == "MBPP":
-    dataset_file = "./dataset/MBPP.jsonl"
-elif dataset == "MBPP-E":
-    dataset_file = "./dataset/MBPP_Extend.jsonl"
 else:
     raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), dataset)
 
@@ -39,16 +35,14 @@ with open(dataset_file, "r") as f:
 
 # extract question and run ChatDev
 flag = False
-for i in questions[:20]:
+for i in questions[:10]:
     question = i[question_key]
     test_cases = i[test_key]
-    task_id = i[task_id_key].split("/")[-1]
-    task_id = str(task_id).zfill(3)
+    task_id = str(i[task_id_key])
     print(question)
     print(test_cases)
     
-    task = f"""Finish the following function delimited by triple quotes:\
-        \"\"\"{question}\"\"\"
+    task = f"""{question}
         """
     name = f"ChatDev_{task_id}"
     ChatDevMain(task=task, name=name, save_folder=dataset)
